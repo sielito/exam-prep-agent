@@ -268,12 +268,19 @@
       </div>
 
       <div class="navlinks">
-        <a class="pill" href="#features">Features</a>
-        <a class="pill" href="#compliance">Compliance</a>
-        <a class="pill" href="terms.html">Terms</a>
-        <a class="pill" href="privacy.html">Privacy</a>
-        <a class="cta" href="#use">How to use</a>
-      </div>
+  <a class="pill" href="#features">Features</a>
+  <a class="pill" href="#compliance">Compliance</a>
+  <a class="pill" href="terms.html">Terms</a>
+  <a class="pill" href="privacy.html">Privacy</a>
+
+  <!-- Dark / Light Toggle -->
+  <button id="themeToggle" class="pill" type="button" aria-label="Toggle dark/light mode">
+    <span id="themeIcon">🌙</span>
+    <span id="themeLabel">Dark</span>
+  </button>
+
+  <a class="cta" href="#use">How to use</a>
+</div>
     </div>
 
     <header class="hero">
@@ -412,5 +419,36 @@
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
   </script>
+
+  <script>
+  // Year
+  document.getElementById("y").textContent = new Date().getFullYear();
+
+  // Theme toggle (dark/light) with persistence
+  const root = document.documentElement;
+  const toggleBtn = document.getElementById("themeToggle");
+  const icon = document.getElementById("themeIcon");
+  const label = document.getElementById("themeLabel");
+
+  function applyTheme(theme){
+    root.setAttribute("data-theme", theme);
+    const isLight = theme === "light";
+    icon.textContent = isLight ? "☀️" : "🌙";
+    label.textContent = isLight ? "Light" : "Dark";
+  }
+
+  // Choose initial theme: saved -> system preference -> dark
+  const saved = localStorage.getItem("theme");
+  const systemPrefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+  const initial = saved || (systemPrefersLight ? "light" : "dark");
+  applyTheme(initial);
+
+  toggleBtn.addEventListener("click", () => {
+    const current = root.getAttribute("data-theme") || "dark";
+    const next = current === "dark" ? "light" : "dark";
+    localStorage.setItem("theme", next);
+    applyTheme(next);
+  });
+</script>
 </body>
 </html>
