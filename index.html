@@ -1,454 +1,217 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Exam-Prep_Agent — Microsoft Certification Coach</title>
-  <meta name="description" content="Exam-Prep_Agent helps you prepare for Microsoft certifications across Azure, Fabric, Power Platform, and AI using official Microsoft Learn resources." />
-  <style>
-    :root{
-      --bg:#0b0f19;
-      --card:#0f1629;
-      --card2:#0c1324;
-      --text:#e7ecff;
-      --muted:#a9b4d0;
-      --line:rgba(255,255,255,.10);
-      --accent:#7c5cff;
-      --accent2:#22d3ee;
-      --good:#34d399;
-      --warn:#fbbf24;
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
-      --radius: 18px;
-      --radius2: 14px;
-      --max: 1100px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      background:
-        radial-gradient(900px 600px at 15% 10%, rgba(124,92,255,.22), transparent 60%),
-        radial-gradient(700px 500px at 90% 25%, rgba(34,211,238,.18), transparent 55%),
-        radial-gradient(600px 450px at 55% 90%, rgba(52,211,153,.10), transparent 55%),
-        var(--bg);
-      color:var(--text);
-      line-height:1.55;
-    }
-    a{color:inherit}
-    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 48px;}
-    .nav{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:16px;
-      padding:14px 16px;
-      border:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      position: sticky; top: 14px;
-      z-index: 10;
-    }
-    .brand{
-      display:flex; align-items:center; gap:12px; min-width: 220px;
-    }
-    .logo{
-      width:38px; height:38px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display:grid; place-items:center;
-      box-shadow: 0 10px 26px rgba(124,92,255,.25);
-      flex:0 0 auto;
-    }
-    .logo svg{filter: drop-shadow(0 8px 18px rgba(0,0,0,.35))}
-    .brand h1{font-size:14px; margin:0}
-    .brand p{margin:0; font-size:12px; color:var(--muted)}
-    .navlinks{
-      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:flex-end;
-    }
-    .pill{
-      font-size:12px;
-      padding:8px 10px;
-      border:1px solid var(--line);
-      border-radius: 999px;
-      text-decoration:none;
-      background: rgba(255,255,255,.03);
-    }
-    .pill:hover{border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.06)}
-    .cta{
-      background: linear-gradient(135deg, rgba(124,92,255,.95), rgba(34,211,238,.65));
-      border: none;
-      padding: 9px 12px;
-      border-radius: 999px;
-      font-weight: 600;
-      text-decoration:none;
-      font-size: 12px;
-      box-shadow: 0 12px 28px rgba(124,92,255,.25);
-    }
-    .cta:hover{filter: brightness(1.06)}
-    header.hero{
-      margin-top: 22px;
-      display:grid;
-      grid-template-columns: 1.3fr .7fr;
-      gap: 18px;
-      align-items: stretch;
-    }
-    @media (max-width: 900px){
-      header.hero{grid-template-columns: 1fr; }
-      .brand{min-width: unset}
-      .nav{position: static}
-    }
-    .card{
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .heroMain{
-      padding: 26px 24px 20px;
-      position: relative;
-    }
-    .tag{
-      display:inline-flex; gap:8px; align-items:center;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .tag .dot{
-      width:8px; height:8px; border-radius: 99px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 0 3px rgba(124,92,255,.14);
-    }
-    .heroMain h2{
-      margin: 12px 0 10px;
-      font-size: 40px;
-      line-height: 1.08;
-      letter-spacing: -0.02em;
-    }
-    .heroMain p{
-      margin: 0 0 16px;
-      color: var(--muted);
-      font-size: 15px;
-      max-width: 65ch;
-    }
-    .btnRow{display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px;}
-    .btn{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      text-decoration:none;
-      background: rgba(255,255,255,.03);
-      font-weight: 600;
-      font-size: 13px;
-    }
-    .btn:hover{background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.22)}
-    .btn.primary{
-      border: none;
-      background: linear-gradient(135deg, rgba(124,92,255,.95), rgba(34,211,238,.65));
-      box-shadow: 0 14px 30px rgba(124,92,255,.25);
-    }
-    .btn.primary:hover{filter: brightness(1.06)}
-    .heroSide{
-      padding: 18px;
-      display:grid;
-      gap: 10px;
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
-    }
-    .mini{
-      padding: 14px;
-      border-radius: var(--radius2);
-      border: 1px solid var(--line);
-      background: rgba(0,0,0,.18);
-    }
-    .mini h3{margin:0 0 6px; font-size: 14px;}
-    .mini p{margin:0; color:var(--muted); font-size: 13px;}
-    .grid{
-      margin-top: 18px;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-    @media (max-width: 900px){ .grid{grid-template-columns: 1fr;} }
-    .feat{
-      padding: 18px;
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      box-shadow: 0 10px 28px rgba(0,0,0,.25);
-    }
-    .feat h4{margin: 0 0 8px; font-size: 15px;}
-    .feat p{margin:0; color:var(--muted); font-size: 13px;}
-    .section{
-      margin-top: 18px;
-      padding: 20px;
-    }
-    .section h3{
-      margin: 0 0 10px;
-      font-size: 18px;
-      letter-spacing: -0.01em;
-    }
-    .badges{
-      display:flex; flex-wrap:wrap; gap:10px;
-      margin-top: 12px;
-    }
-    .badge{
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      border-radius: 999px;
-      padding: 8px 10px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .list{
-      margin: 12px 0 0;
-      padding: 0;
-      list-style: none;
-      display:grid;
-      gap: 10px;
-    }
-    .li{
-      padding: 12px 12px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius2);
-      background: rgba(0,0,0,.16);
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-    }
-    .icon{
-      width:28px; height:28px; border-radius: 10px;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
-      display:grid; place-items:center;
-      flex: 0 0 auto;
-      margin-top: 2px;
-    }
-    .li strong{display:block; font-size: 13px; margin-bottom: 2px;}
-    .li span{display:block; color: var(--muted); font-size: 13px;}
-    .foot{
-      margin-top: 18px;
-      padding: 14px 2px 0;
-      color: var(--muted);
-      font-size: 12px;
-      display:flex;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .foot a{color: var(--muted); text-decoration:none}
-    .foot a:hover{color: var(--text)}
-    code.k{
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 10px;
-      padding: 2px 8px;
-      font-size: 12px;
-      color: var(--text);
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Exam-Prep_Agent — Microsoft Certification Coach</title>
+<meta name="description" content="Exam-Prep_Agent helps you prepare for Microsoft certifications across Azure, Fabric, Power Platform, and AI using official Microsoft Learn resources." />
+
+<style>
+
+/* ============================= */
+/* THEME SYSTEM */
+/* ============================= */
+
+:root{
+  /* Dark default */
+  --bg:#0b0f19;
+  --card:#0f1629;
+  --text:#e7ecff;
+  --muted:#a9b4d0;
+  --line:rgba(255,255,255,.10);
+  --accent:#7c5cff;
+  --accent2:#22d3ee;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+  --radius:18px;
+}
+
+html[data-theme="light"]{
+  --bg:#f7f8fc;
+  --card:#ffffff;
+  --text:#0b1020;
+  --muted:#4a5568;
+  --line:rgba(10,16,32,.12);
+  --accent:#5b5cff;
+  --accent2:#0ea5e9;
+  --shadow:0 18px 45px rgba(10,16,32,.14);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  background:
+    radial-gradient(900px 600px at 15% 10%, rgba(124,92,255,.22), transparent 60%),
+    radial-gradient(700px 500px at 90% 25%, rgba(34,211,238,.18), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  line-height:1.55;
+  transition: background .4s ease, color .3s ease;
+}
+
+html[data-theme="light"] body{
+  background:
+    radial-gradient(900px 600px at 15% 10%, rgba(91,92,255,.10), transparent 60%),
+    radial-gradient(700px 500px at 90% 25%, rgba(14,165,233,.10), transparent 55%),
+    var(--bg);
+}
+
+/* ============================= */
+
+.wrap{max-width:1100px;margin:0 auto;padding:28px 18px 48px;}
+
+.nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 16px;
+  border:1px solid var(--line);
+  background:var(--card);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.navlinks{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+
+.pill{
+  font-size:12px;
+  padding:8px 10px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  text-decoration:none;
+  background:transparent;
+}
+
+button.pill{
+  cursor:pointer;
+  color:inherit;
+  background:transparent;
+}
+
+.cta{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;
+  padding:9px 12px;
+  border-radius:999px;
+  font-weight:600;
+  font-size:12px;
+  color:white;
+}
+
+.hero{
+  margin-top:24px;
+  padding:24px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:var(--card);
+  box-shadow:var(--shadow);
+}
+
+.hero h2{
+  font-size:34px;
+  margin:12px 0;
+}
+
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+.badge{
+  border:1px solid var(--line);
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.foot{
+  margin-top:24px;
+  font-size:12px;
+  color:var(--muted);
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+
+.foot a{color:var(--muted);text-decoration:none;}
+
+</style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="nav">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2l2.2 6.2L21 10l-5 4 1.6 7L12 18l-5.6 3 1.6-7-5-4 6.8-1.8L12 2z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div>
-          <h1>Exam-Prep_Agent</h1>
-          <p>Microsoft certification coach (Azure • Fabric • Power Platform • AI)</p>
-        </div>
-      </div>
+<div class="wrap">
 
-      <div class="navlinks">
-  <a class="pill" href="#features">Features</a>
-  <a class="pill" href="#compliance">Compliance</a>
-  <a class="pill" href="terms.html">Terms</a>
-  <a class="pill" href="privacy.html">Privacy</a>
-
-  <!-- Dark / Light Toggle -->
-  <button id="themeToggle" class="pill" type="button" aria-label="Toggle dark/light mode">
-    <span id="themeIcon">🌙</span>
-    <span id="themeLabel">Dark</span>
-  </button>
-
-  <a class="cta" href="#use">How to use</a>
-</div>
-    </div>
-
-    <header class="hero">
-      <div class="card heroMain">
-        <div class="tag"><span class="dot"></span> Built for practical learning — not memorization</div>
-        <h2>Prepare for Microsoft exams with a real-world coaching approach.</h2>
-        <p>
-          Exam-Prep_Agent helps you study for Microsoft certifications across <strong>Azure</strong>, <strong>Microsoft Fabric</strong>,
-          <strong>Power Platform</strong>, and <strong>AI</strong> by explaining skills measured, creating structured study plans,
-          and guiding hands-on practice using official Microsoft resources.
-        </p>
-
-        <div class="btnRow">
-          <a class="btn primary" href="#use">Get started</a>
-          <a class="btn" href="#features">What it does</a>
-          <a class="btn" href="#compliance">Policy & safety</a>
-        </div>
-
-        <div class="badges" style="margin-top:16px;">
-          <span class="badge">Study plans (2–8 weeks)</span>
-          <span class="badge">Hands-on labs</span>
-          <span class="badge">Skill breakdowns</span>
-          <span class="badge">Exam readiness checks</span>
-          <span class="badge">Official Microsoft Learn guidance</span>
-        </div>
-      </div>
-
-      <div class="card heroSide">
-        <div class="mini">
-          <h3>Supported areas</h3>
-          <p>Azure • Fabric • Power Platform • AI • Data fundamentals</p>
-        </div>
-        <div class="mini">
-          <h3>Best for</h3>
-          <p>Beginners to architects who want structured preparation and real project-style practice.</p>
-        </div>
-        <div class="mini">
-          <h3>Quick examples</h3>
-          <p>
-            “I have 3 weeks for DP-600 — build me a plan.”<br/>
-            “Explain PL-200 security roles like I’m new.”<br/>
-            “Give me hands-on labs for AZ-104 networking.”
-          </p>
-        </div>
-      </div>
-    </header>
-
-    <section id="features" class="grid">
-      <div class="feat">
-        <h4>Structured study plans</h4>
-        <p>Build a week-by-week plan with milestones, review cycles, and realistic lab time.</p>
-      </div>
-      <div class="feat">
-        <h4>Skills measured → plain language</h4>
-        <p>Turn official objectives into what you must understand, configure, troubleshoot, and design.</p>
-      </div>
-      <div class="feat">
-        <h4>Hands-on practice</h4>
-        <p>Guided lab ideas and mini-projects for Azure, Fabric, and Power Platform to build real capability.</p>
-      </div>
-    </section>
-
-    <section id="use" class="card section">
-      <h3>How to use the agent</h3>
-      <ul class="list">
-        <li class="li">
-          <div class="icon" aria-hidden="true">1</div>
-          <div>
-            <strong>Tell it your exam + timeline</strong>
-            <span>Example: “AZ-104 in 4 weeks, 6 hours/week, intermediate level.”</span>
-          </div>
-        </li>
-        <li class="li">
-          <div class="icon" aria-hidden="true">2</div>
-          <div>
-            <strong>Ask for a plan and labs</strong>
-            <span>It will produce a structured plan + hands-on tasks aligned to skills measured.</span>
-          </div>
-        </li>
-        <li class="li">
-          <div class="icon" aria-hidden="true">3</div>
-          <div>
-            <strong>Run checkpoints</strong>
-            <span>Request “readiness checks” and focus areas — concept-based, not real exam questions.</span>
-          </div>
-        </li>
-      </ul>
-
-      <p style="margin:14px 0 0; color:var(--muted); font-size:13px;">
-        Tip: If you’re using this inside Teams / Microsoft 365 Copilot, keep prompts short and specific.
-        For example: <code class="k">“DP-600, 2 weeks, 10h/week — make an aggressive plan.”</code>
-      </p>
-    </section>
-
-    <section id="compliance" class="card section" style="margin-top:14px;">
-      <h3>Compliance & safety</h3>
-      <ul class="list">
-        <li class="li">
-          <div class="icon" aria-hidden="true">✓</div>
-          <div>
-            <strong>No exam dumps / no real questions</strong>
-            <span>The agent refuses requests for brain dumps or real exam questions and redirects to legitimate prep.</span>
-          </div>
-        </li>
-        <li class="li">
-          <div class="icon" aria-hidden="true">✓</div>
-          <div>
-            <strong>Official learning focus</strong>
-            <span>Recommendations are based on publicly available Microsoft Learn and documentation where possible.</span>
-          </div>
-        </li>
-        <li class="li">
-          <div class="icon" aria-hidden="true">✓</div>
-          <div>
-            <strong>Educational intent</strong>
-            <span>Built to strengthen real-world capability (design, config, troubleshooting), not just passing.</span>
-          </div>
-        </li>
-      </ul>
-
-      <p style="margin:14px 0 0; color:var(--muted); font-size:13px;">
-        Read the full <a href="terms.html">Terms of Use</a> and <a href="privacy.html">Privacy Policy</a>.
-      </p>
-    </section>
-
-    <div class="foot">
-      <div>© <span id="y"></span> Osiel Barrabia • Exam-Prep_Agent</div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <a href="terms.html">Terms</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="https://github.com/sielito" target="_blank" rel="noopener">GitHub</a>
-      </div>
-    </div>
+<div class="nav">
+  <div>
+    <strong>Exam-Prep_Agent</strong><br>
+    <span style="font-size:12px;color:var(--muted)">
+      Azure • Fabric • Power Platform • AI
+    </span>
   </div>
 
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-  </script>
+  <div class="navlinks">
+    <a class="pill" href="terms.html">Terms</a>
+    <a class="pill" href="privacy.html">Privacy</a>
 
-  <script>
-  // Year
-  document.getElementById("y").textContent = new Date().getFullYear();
+    <!-- THEME TOGGLE -->
+    <button id="themeToggle" class="pill">
+      <span id="themeIcon">🌙</span>
+      <span id="themeLabel">Dark</span>
+    </button>
 
-  // Theme toggle (dark/light) with persistence
-  const root = document.documentElement;
-  const toggleBtn = document.getElementById("themeToggle");
-  const icon = document.getElementById("themeIcon");
-  const label = document.getElementById("themeLabel");
+    <a class="cta" href="#">Use Agent</a>
+  </div>
+</div>
 
-  function applyTheme(theme){
-    root.setAttribute("data-theme", theme);
-    const isLight = theme === "light";
-    icon.textContent = isLight ? "☀️" : "🌙";
-    label.textContent = isLight ? "Light" : "Dark";
-  }
+<div class="hero">
+  <h2>Prepare for Microsoft certifications with real-world structure.</h2>
+  <p style="color:var(--muted)">
+    Structured study plans, skill breakdowns, hands-on labs and readiness checks.
+  </p>
 
-  // Choose initial theme: saved -> system preference -> dark
-  const saved = localStorage.getItem("theme");
-  const systemPrefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
-  const initial = saved || (systemPrefersLight ? "light" : "dark");
-  applyTheme(initial);
+  <div class="badges">
+    <span class="badge">Study Plans</span>
+    <span class="badge">Hands-on Labs</span>
+    <span class="badge">Readiness Checks</span>
+    <span class="badge">Official Guidance</span>
+  </div>
+</div>
 
-  toggleBtn.addEventListener("click", () => {
-    const current = root.getAttribute("data-theme") || "dark";
-    const next = current === "dark" ? "light" : "dark";
-    localStorage.setItem("theme", next);
-    applyTheme(next);
-  });
+<div class="foot">
+  <div>© <span id="y"></span> Osiel Barrabia</div>
+  <div>
+    <a href="https://github.com/sielito" target="_blank">GitHub</a>
+  </div>
+</div>
+
+</div>
+
+<script>
+
+/* YEAR */
+document.getElementById("y").textContent = new Date().getFullYear();
+
+/* THEME TOGGLE */
+const root = document.documentElement;
+const toggleBtn = document.getElementById("themeToggle");
+const icon = document.getElementById("themeIcon");
+const label = document.getElementById("themeLabel");
+
+function applyTheme(theme){
+  root.setAttribute("data-theme", theme);
+  icon.textContent = theme === "light" ? "☀️" : "🌙";
+  label.textContent = theme === "light" ? "Light" : "Dark";
+}
+
+const saved = localStorage.getItem("theme");
+const systemPrefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+const initial = saved || (systemPrefersLight ? "light" : "dark");
+applyTheme(initial);
+
+toggleBtn.addEventListener("click", () => {
+  const current = root.getAttribute("data-theme") || "dark";
+  const next = current === "dark" ? "light" : "dark";
+  localStorage.setItem("theme", next);
+  applyTheme(next);
+});
+
 </script>
 </body>
 </html>
